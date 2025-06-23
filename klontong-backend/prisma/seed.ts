@@ -1,33 +1,46 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import * as bcrypt from 'bcrypt';
+import * as fs from 'fs';
+import * as path from 'path';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  for (let i = 0; i < 10; i++) {
-    await prisma.category.create({
-      data: {
-        name: faker.commerce.department(),
-      },
-    });
-  }
+  console.log('Clearing old data...');
+  await prisma.product.deleteMany();
+  await prisma.category.deleteMany();
+  await prisma.user.deleteMany();
 
-  const categories = await prisma.category.findMany();
+  console.log('Load JSON files...');
+  const categories = JSON.parse(
+    fs.readFileSync(path.join(__dirname, 'data/categories.json'), 'utf-8')
+  );
+  const products = JSON.parse(
+    fs.readFileSync(path.join(__dirname, 'data/products.json'), 'utf-8')
+  );
 
-  for (let i = 0; i < 100; i++) {
+  console.log('Seeding categories...');
+  await prisma.category.createMany({ data: categories });
+  const allCategories = await prisma.category.findMany();
+
+  console.log('Seeding products...');
+  for (const p of products) {
+    const category = allCategories.find((c) => c.name === p.categoryName);
+    if (!category) continue;
+
     await prisma.product.create({
       data: {
-        name: faker.commerce.productName(),
-        sku: faker.string.alpha(6).toUpperCase(),
-        description: faker.commerce.productDescription(),
-        weight: faker.number.int({ min: 100, max: 1000 }),
-        width: 10,
-        height: 10,
-        length: 10,
-        image: faker.image.urlLoremFlickr({ category: 'product' }),
-        price: faker.number.int({ min: 1000, max: 100000 }),
-        categoryId: categories[Math.floor(Math.random() * categories.length)].id,
+        name: p.name,
+        sku: p.sku,
+        description: p.description,
+        weight: p.weight,
+        width: p.width,
+        length: p.length,
+        height: p.height,
+        image: p.image,
+        price: p.price,
+        categoryId: category.id,
       },
     });
   }
