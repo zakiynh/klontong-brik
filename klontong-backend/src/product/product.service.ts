@@ -62,10 +62,17 @@ export class ProductService {
     });
   }
 
-  update(id: number, data) {
+  update(id: number, data: any) {
+    const {
+      id: _id,
+      createdAt: _createdAt,
+      category: _category,
+      ...allowedData
+    } = data;
+
     return this.prisma.product.update({
       where: { id },
-      data,
+      data: allowedData,
     });
   }
 

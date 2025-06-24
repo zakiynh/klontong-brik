@@ -1,3 +1,4 @@
+
 # 🏪 Klontong API
 
 Backend service untuk aplikasi toko klontong sederhana. Dibangun menggunakan **NestJS**, **Prisma**, dan **PostgreSQL**. Menyediakan fitur autentikasi, manajemen produk, dan kategori.
@@ -15,50 +16,94 @@ Backend service untuk aplikasi toko klontong sederhana. Dibangun menggunakan **N
 
 ---
 
-## Dependency Installation
-- **npm install**
+## 🧩 Dependency Installation
 
-## Environment Configuration
-- **.env**: Change .env.example to .env
+```bash
+npm install
+```
+
+---
+
+## ⚙️ Environment Configuration
+
+1. Duplikat file `.env.example` menjadi `.env`
+2. Sesuaikan variabel:
+
+```env
 DATABASE_URL="postgresql://postgres:password@localhost:5432/klontong"
-JWT_SECRET=
-PORT=
+JWT_SECRET=your_jwt_secret
+PORT=3000
+BASE_URL=http://localhost:3000
+```
 
-BASE_URL=
+---
 
-## Seeding and Migration Data
-- **npx prisma migrate reset**
+## 🌱 Seeding & Migration
 
-## Starting server
-**npm run start:dev**
+```bash
+npx prisma migrate reset
+```
 
-## Testing Account
-- **Email: test@klontong.com**
-- **Password: test123**
+Ini akan:
+- Menghapus database lama
+- Migrasi ulang semua tabel
+- Menjalankan seeding otomatis (produk & kategori)
 
-## API Endpoints
+---
 
-- **Auth**
+## ▶️ Menjalankan Server
 
-| Method | Endpoint         | Keterangan      |
-| ------ | ---------------- | --------------- |
-| POST   | `/auth/register` | Registrasi user |
-| POST   | `/auth/login`    | Login user      |
+```bash
+npm run start:dev
+```
 
-- **Product**
+---
 
-| Method | Endpoint                          | Keterangan                      |
-| ------ | --------------------------------- | ------------------------------- |
+## 🧪 Akun Testing
+
+```txt
+Email:    test@klontong.com
+Password: test123
+```
+
+---
+
+## 🔌 API Endpoints
+
+### ✅ Auth
+
+| Method | Endpoint         | Deskripsi        |
+|--------|------------------|------------------|
+| POST   | `/auth/register` | Register user    |
+| POST   | `/auth/login`    | Login user       |
+
+---
+
+### 📦 Produk
+
+| Method | Endpoint                          | Deskripsi                       |
+|--------|-----------------------------------|----------------------------------|
 | GET    | `/products`                       | Ambil semua produk (pagination) |
-|        | `?page=1&search=xxx&categoryId=3` | Filter opsional                 |
-| GET    | `/products/:id`                   | Ambil detail produk             |
-| POST   | `/products`                       | Tambah produk (auth)            |
-| PATCH  | `/products/:id`                   | Edit produk (auth)              |
-| DELETE | `/products/:id`                   | Hapus produk (auth)             |
+|        | `?page=1&search=xxx&categoryId=3` | (Optional) filter query         |
+| GET    | `/products/:id`                   | Detail produk berdasarkan ID    |
+| POST   | `/products`                       | Tambah produk (auth required)   |
+| PATCH  | `/products/:id`                   | Edit produk (auth required)     |
+| DELETE | `/products/:id`                   | Hapus produk (auth required)    |
 
-- **Category**
+---
 
-| Method | Endpoint      | Keterangan           |
-| ------ | ------------- | -------------------- |
+### 🗂️ Kategori
+
+| Method | Endpoint      | Deskripsi           |
+|--------|---------------|---------------------|
 | GET    | `/categories` | Ambil semua kategori |
 
+---
+
+## 📌 Catatan
+- Gunakan tool seperti [Postman](https://www.postman.com/) atau [Insomnia](https://insomnia.rest/) untuk mengetes API.
+- Semua endpoint `POST`, `PATCH`, dan `DELETE` membutuhkan JWT token.
+
+---
+
+Happy coding! 💪

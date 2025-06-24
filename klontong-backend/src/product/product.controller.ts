@@ -7,14 +7,14 @@ import {
   Param,
   Delete,
   Query,
-  UseGuards,
+  // UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UsePipes, ValidationPipe } from '@nestjs/common';
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
