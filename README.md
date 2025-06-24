@@ -1,109 +1,115 @@
+# 🏪 Klontong App
 
-# 🏪 Klontong API
-
-Backend service untuk aplikasi toko klontong sederhana. Dibangun menggunakan **NestJS**, **Prisma**, dan **PostgreSQL**. Menyediakan fitur autentikasi, manajemen produk, dan kategori.
-
----
-
-## 🚀 Tech Stack
-
-- **Backend**: [NestJS](https://nestjs.com/) (TypeScript)
-- **ORM**: [Prisma](https://www.prisma.io/)
-- **Database**: PostgreSQL
-- **Auth**: JWT + Bcrypt
-- **Validation**: class-validator
-- **Seeding**: JSON data (produk & kategori)
+Aplikasi toko klontong sederhana yang terdiri dari **Backend API (NestJS + PostgreSQL)** dan **Frontend SPA (Vue 3 + Pinia + TailwindCSS)**.
 
 ---
 
-## 🧩 Dependency Installation
+## 🔧 Tech Stack
 
+### Backend
+- ✅ [NestJS](https://nestjs.com/) (TypeScript)
+- ✅ [Prisma ORM](https://www.prisma.io/)
+- ✅ PostgreSQL
+- ✅ JWT Authentication + Bcrypt
+- ✅ Validation with `class-validator`
+
+### Frontend
+- ✅ [Vue 3](https://vuejs.org/)
+- ✅ Pinia Store
+- ✅ Vue Router
+- ✅ Tailwind CSS
+- ✅ Toast Notification: `vue-toastification`
+- ✅ Form validation: `vee-validate` + `yup`
+
+---
+
+## 🗂️ Monorepo Structure
+
+```
+klontong-app/
+│
+├── klontong-backend/        # Backend (NestJS)
+└── klontong-frontend/       # Frontend (Vue 3)
+```
+
+---
+
+## ⚙️ Backend Setup
+
+### 1. Install Dependencies
 ```bash
+cd klontong-backend
 npm install
 ```
 
----
-
-## ⚙️ Environment Configuration
-
-1. Duplikat file `.env.example` menjadi `.env`
-2. Sesuaikan variabel:
-
+### 2. Setup Environment
+Buat file `.env` berdasarkan `.env.example`:
 ```env
 DATABASE_URL="postgresql://postgres:password@localhost:5432/klontong"
-JWT_SECRET=your_jwt_secret
+JWT_SECRET="your_jwt_secret"
 PORT=3000
-BASE_URL=http://localhost:3000
 ```
 
----
-
-## 🌱 Seeding & Migration
-
+### 3. Migrasi & Seeding
 ```bash
 npx prisma migrate reset
 ```
 
-Ini akan:
-- Menghapus database lama
-- Migrasi ulang semua tabel
-- Menjalankan seeding otomatis (produk & kategori)
-
----
-
-## ▶️ Menjalankan Server
-
+### 4. Start Server
 ```bash
 npm run start:dev
 ```
 
----
-
-## 🧪 Akun Testing
-
-```txt
-Email:    test@klontong.com
+### ✅ Akun Testing
+```bash
+Email: test@klontong.com
 Password: test123
 ```
 
 ---
 
-## 🔌 API Endpoints
+## 🌐 API Endpoints
 
-### ✅ Auth
+### Auth
+| Method | Endpoint         | Keterangan      |
+|--------|------------------|-----------------|
+| POST   | `/auth/register` | Register user   |
+| POST   | `/auth/login`    | Login user      |
 
-| Method | Endpoint         | Deskripsi        |
-|--------|------------------|------------------|
-| POST   | `/auth/register` | Register user    |
-| POST   | `/auth/login`    | Login user       |
+### Product
+| Method | Endpoint                         | Keterangan                    |
+|--------|----------------------------------|-------------------------------|
+| GET    | `/products`                      | Ambil semua produk (paging)  |
+|        | `?page=1&search=xxx&categoryId=3`| Filter opsional              |
+| GET    | `/products/:id`                  | Detail produk                 |
+| POST   | `/products`                      | Tambah produk (auth)         |
+| PATCH  | `/products/:id`                  | Edit produk (auth)           |
+| DELETE | `/products/:id`                  | Hapus produk (auth)          |
 
----
-
-### 📦 Produk
-
-| Method | Endpoint                          | Deskripsi                       |
-|--------|-----------------------------------|----------------------------------|
-| GET    | `/products`                       | Ambil semua produk (pagination) |
-|        | `?page=1&search=xxx&categoryId=3` | (Optional) filter query         |
-| GET    | `/products/:id`                   | Detail produk berdasarkan ID    |
-| POST   | `/products`                       | Tambah produk (auth required)   |
-| PATCH  | `/products/:id`                   | Edit produk (auth required)     |
-| DELETE | `/products/:id`                   | Hapus produk (auth required)    |
-
----
-
-### 🗂️ Kategori
-
-| Method | Endpoint      | Deskripsi           |
-|--------|---------------|---------------------|
+### Category
+| Method | Endpoint      | Keterangan           |
+|--------|---------------|----------------------|
 | GET    | `/categories` | Ambil semua kategori |
 
 ---
 
-## 📌 Catatan
-- Gunakan tool seperti [Postman](https://www.postman.com/) atau [Insomnia](https://insomnia.rest/) untuk mengetes API.
-- Semua endpoint `POST`, `PATCH`, dan `DELETE` membutuhkan JWT token.
+## 💻 Frontend Setup
+
+### 1. Install Dependencies
+```bash
+cd klontong-frontend
+npm install
+```
+
+### 2. Jalankan Frontend Dev Server
+```bash
+npm run dev
+```
+
+### 3. Konfigurasi Environment (Opsional)
+Jika menggunakan `.env`, contoh isi:
+```env
+VITE_API_URL=http://localhost:3000
+```
 
 ---
-
-Happy coding! 💪
